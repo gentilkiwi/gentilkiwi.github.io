@@ -1,0 +1,12 @@
+title: Blog de Gentil Kiwi
+description: L'aide mémoire d'un Kiwi
+permalink: none
+
+# theme: minima - obsolete version on GitHub Pages :(
+plugins:
+  - jekyll-remote-theme
+
+remote_theme: jekyll/minima
+minima:
+  skin: dark
+  hide_site_feed_link: true
