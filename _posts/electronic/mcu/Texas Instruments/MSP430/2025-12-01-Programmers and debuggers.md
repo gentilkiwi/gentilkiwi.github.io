@@ -1,4 +1,5 @@
 ---
+title: TI MSP430 Programmers & Debuggers
 categories:
   - electronic
   - mcu
