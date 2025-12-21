@@ -10,3 +10,10 @@ remote_theme: jekyll/minima
 minima:
   skin: dark
   hide_site_feed_link: true
+  social_links:
+    - title: gentilkiwi's GitHub
+      icon: github
+      url: https://github.com/gentilkiwi
+    - title: gentilkiwi's X (formerly Twitter)
+      icon: x-twitter
+      url: https://x.com/gentilkiwi
