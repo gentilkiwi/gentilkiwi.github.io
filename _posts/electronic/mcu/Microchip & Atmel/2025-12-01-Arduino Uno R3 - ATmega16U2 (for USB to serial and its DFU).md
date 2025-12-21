@@ -251,12 +251,15 @@ avrdude -c pickit4_isp -p ATmega16U2 -e -U flash,lfuse,hfuse,efuse,lock:w:Arduin
 
 #### Flash fixed firmware
 
+Files: [`USBtoSerial.hex`](/assets/downloads/arduino_uno_r3/atmega16u2/USBtoSerial.hex) & [`BootloaderDFU.hex`](/assets/downloads/arduino_uno_r3/atmega16u2/BootloaderDFU.hex)
+
 ```
 avrdude -c pickit4_isp -p ATmega16U2 -e -U flash:w:USBtoSerial.hex:i -U flash:w:BootloaderDFU.hex:i -U lfuse:w:0xef:m -U hfuse:w:0xd9:m -U efuse:w:0xf4:m -U lock:w:0xcf:m
 ```
-Files: [`USBtoSerial.hex`](/assets/downloads/arduino_uno_r3/atmega16u2/USBtoSerial.hex) & [`BootloaderDFU.hex`](/assets/downloads/arduino_uno_r3/atmega16u2/BootloaderDFU.hex)
 
 or with all combined (`avrdude` version >= 8.0):
+
+File: [`usbserial-bootloaderdfu_fuses_lock.hex`](/assets/downloads/arduino_uno_r3/atmega16u2/usbserial-bootloaderdfu_fuses_lock.hex)
 
 ```
 avrdude -c pickit4_isp -p ATmega16U2 -e -U flash,lfuse,hfuse,efuse,lock:w:usbserial-bootloaderdfu_fuses_lock.hex:i
@@ -271,8 +274,6 @@ avrdude -c pickit4_isp -p ATmega16U2 -e -U flash,lfuse,hfuse,efuse,lock:w:usbser
 >   -generate 0x830000 0x830001 -constant 0xcf
 > ```
 > You can add `-generate 0x810000 0x810200 -constant 0xff ^` before the first `-generate` if you **really** want the EEPROM data (normally erased when programming)
-
-File: [`usbserial-bootloaderdfu_fuses_lock.hex`](/assets/downloads/arduino_uno_r3/atmega16u2/usbserial-bootloaderdfu_fuses_lock.hex)
 
 ## References
 
