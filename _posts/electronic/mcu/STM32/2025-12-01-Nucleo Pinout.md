@@ -1,4 +1,5 @@
 ---
+title: STM32 Nucleo Pinout
 categories:
   - electronic
   - mcu
