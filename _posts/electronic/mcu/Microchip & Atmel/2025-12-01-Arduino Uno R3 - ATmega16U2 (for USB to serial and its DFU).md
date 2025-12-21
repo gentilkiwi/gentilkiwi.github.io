@@ -28,7 +28,7 @@ The firmware files are organized as follows:
 - USB DFU part is in `arduino-usbdfu` directory, **firmware is not precompiled**.
 
 For convenience, they are merged in: [`Arduino-COMBINED-dfu-usbserial-atmega16u2-Uno-Rev3.hex`](https://raw.githubusercontent.com/arduino/ArduinoCore-avr/refs/heads/master/firmwares/atmegaxxu2/Genuino-COMBINED-dfu-usbserial-atmega16u2-Uno-R3.hex)  
-Both are _inspired_ by LUFA (`Projects/USBtoSerial` & `Bootloaders/DFU`)
+Both are _inspired_ by [LUFA](https://github.com/abcminiuser/lufa) ([`Projects/USBtoSerial`](https://github.com/abcminiuser/lufa/tree/master/Projects/USBtoSerial) & [`Bootloaders/DFU`](https://github.com/abcminiuser/lufa/tree/master/Bootloaders/DFU))
 
 > The DFU firmware is inside `Arduino-COMBINED-dfu-usbserial-atmega16u2-Uno-Rev3.hex`  
 > You can extract the original DFU firmware part with: `srec_cat -output Arduino-dfu-atmega16u2-Uno-Rev3.hex -intel Arduino-COMBINED-dfu-usbserial-atmega16u2-Uno-Rev3.hex -intel -exclude 0x0000 0x3000`  
@@ -76,7 +76,7 @@ srec_info Projects/USBtoSerial/USBtoSerial.hex -intel Bootloaders/DFU/Bootloader
 
 ## Programming
 
-> Tested with `flip1` (with limitations), `avrispmkII` & `pickit4_isp`
+Tested with `flip1` (with limitations), `avrispmkII` & `pickit4_isp`
 
 ### `flip1` (dfu)
 
@@ -114,6 +114,8 @@ Error: expected signature for ATmega16U2 is 1E 94 89
 
 > DFU firmware problem was fixed in 2013/2015 in the LUFA project ( <https://github.com/abcminiuser/lufa> ).  
 > Bonus: TX/RX leds are now flashing to show we're in DFU mode :)
+
+Windows user: Atmel DFU driver can be found in Microchip Studio or FLIP, but is available here for convenience: [`atmel_usb_dfu_driver.zip`](/assets/downloads/atmel_usb_dfu_driver.zip) (it's only a libusb wrapper)
 
 #### Before flashing
 
