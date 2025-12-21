@@ -73,7 +73,7 @@ In this example we:
 
 The NFC exchange is ~1.4 ms (`P0`), but the whole communication part is ~3.3 ms (`P1`).
 
-![](pn532_aux_capture_timings.png)
+![](/assets/img/pn532_aux_capture_timings.png)
 
 ## References
 
