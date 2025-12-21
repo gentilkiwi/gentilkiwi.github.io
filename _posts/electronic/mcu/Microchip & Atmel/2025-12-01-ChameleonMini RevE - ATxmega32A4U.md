@@ -34,11 +34,10 @@ From: `common/services/usb/class/dfu_flip/device/bootloader/xmega/conf/conf_isp.
 | XMEGA_A4U, XMEGA_C4             | PORTC_DIR    | PORTC_PIN3CTRL   | PORTC_IN    | 3            | PC3           |
 | XMEGA_B                         | PORTC_DIR    | PORTC_PIN6CTRL   | PORTC_IN    | 6            | PC6           |
 
-> [!bug]
-> It seems that the definition for `XMEGA_A1U` is incorrect, `ISP_PORT_PIN` is set to `0` : `ISP_PORT_PINCTRL` should be `PORTF_PIN0CTRL` (not `PORTF_PIN5CTRL`).
+> It seems that the definition for `XMEGA_A1U` is incorrect, `ISP_PORT_PIN` is set to `0` : `ISP_PORT_PINCTRL` should be `PORTF_PIN0CTRL` (not `PORTF_PIN5CTRL`).  
 > In addition, documentation is about a non existent default pin `PF10` (Table 5-1), it should be `PF0` ( <https://microchip.my.site.com/s/article/AVR1916---Default-pin-configuration-for-boot-loader--ATxmega128A1U> )
 
-We are not concerned about it here, as we're working on a `ATxmega32A4U`, using `PC3` by default to switch to DFU mode - confirmed by the `conf_isp.h` header.
+We are not concerned about it here, as we're working on a `ATxmega32A4U`, using `PC3` by default to switch to DFU mode - confirmed by the `conf_isp.h` header.  
 `ISP_PORT_*` definitions will be used in the firmware project, only in the file `common/services/isp/flip/xmega/cstartup.s90`:
 
 ```
