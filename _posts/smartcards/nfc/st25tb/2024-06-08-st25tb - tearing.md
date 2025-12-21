@@ -1,4 +1,5 @@
 ---
+title: st25tb - tearing
 categories:
   - smartcards
   - nfc
