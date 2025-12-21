@@ -1,4 +1,5 @@
 ---
+title: Arduino Uno R3 - ATmega328P
 categories:
   - electronic
   - mcu
@@ -12,16 +13,15 @@ tags:
   - Arduino
 ---
 
-This part is about the _real_ `ATmega328P`, with 32 KB of flash, running our Arduino programs/sketches.
-In the Uno R3 case, `ATmega328P` does not interact directly with our computer (no USB support), but uses UART communication via the `ATmega16U2` supporting USB (`ATmega328P` (UART) ↔ `ATmega16U2` (USB) ↔ our computer).
+This part is about the _real_ `ATmega328P`, with 32 KB of flash, running our Arduino programs/sketches.  
+In the Uno R3 case, `ATmega328P` does not interact directly with our computer (no USB support), but uses UART communication via the `ATmega16U2` supporting USB (`ATmega328P` (UART) ↔ `ATmega16U2` (USB) ↔ our computer).  
 The `ATmega328P` uses a minimalist bootloader called `optiboot`, which is slightly under 512 bytes, leaving more space for our programs/sketches, and allows UART flashing via the `ATmega16U2`.
 
-> [!note]
 > You can find information about `ATmega16U2` on the Arduino Uno R3: [Arduino Uno R3 - ATmega16U2 (for USB to serial and its DFU)](Arduino%20Uno%20R3%20-%20ATmega16U2%20(for%20USB%20to%20serial%20and%20its%20DFU).md)
 
 You can find original `optiboot` bootloader in :
 - `%localappdata%\Arduino15\packages\arduino\hardware\avr\<version>\bootloaders\optiboot`
-- https://github.com/arduino/ArduinoCore-avr/tree/master/bootloaders/optiboot
+- <https://github.com/arduino/ArduinoCore-avr/tree/master/bootloaders/optiboot>
 
 Ressources used are available on: https://github.com/gentilkiwi/attachments/tree/main/blog/arduino_uno_r3/atmega328p
 
@@ -38,7 +38,6 @@ With default fuses values, the memory map for Intel HEX files is:
 | `0x820000` | `0x820002` | 3 bytes   | Fuses                | Low, High, and Extended fuse bits |
 | `0x830000` | `0x830000` | 1 byte    | Lock Bits            | Protection flags                  |
 
-> [!note]
 > You can see other values in the datasheet:
 > - `ATmega328P` uses an addressing mode in `words` (16 bits), not `bytes` (8 bits): so bootloader start at `0x3f00` in words... but also  `0x7e00` in bytes
 > - EEPROM is not really @ `0x810000`, as fuses or lock, but programmer softwares are using different addresses to not mix different memory areas.
@@ -60,19 +59,16 @@ make --directory=optiboot/bootloaders/optiboot AVR_FREQ=16000000 LED_START_FLASH
 srec_info optiboot/bootloaders/optiboot/optiboot_atmega328.hex -intel
 ```
 
-> [!note]
 > You now need an external programmer (not `arduino`) in order to replace the bootloader, see below.
 
 ## Programming
 
-> [!info]
 > Tested with `arduino` (with limitations), `avrispmkII` & `pickit4_isp`
 
 ### `arduino`
 
 In this mode, only flash is available (and the bootloader part is not writable).
 
-> [!note]
 > This is the normal programming mode used by Arduino IDE (calling an old version of `avrdude`)
 
 #### Check connection
@@ -94,8 +90,7 @@ Device signature = 1E 95 0F (ATmega328P, ATA6614Q, LGT8F328P)
 [...]
 ```
 
-> [!danger]
-> Make backup of flash before any write operation: `avrdude -c arduino -P COM5 -p ATmega328P -U flash:r:backup_flash.hex:i`
+> Make backup of flash before any write operation: `avrdude -c arduino -P COM5 -p ATmega328P -U flash:r:backup_flash.hex:i`  
 > You can restore memories `avrdude -c arduino -P COM5 -p ATmega328P -U flash:w:backup_flash.hex:i`
 
 You can flash an application, such as `blink.hex`, with the following command:
@@ -113,7 +108,6 @@ Reading | ################################################## | 100% 0.13 s
 
 #### Notes
 
->[!note]
 > When using a hardware programmer, connect it to the `ATmega328P` ISP connector (located at the bottom middle)
 > ```
 > RESET  CLK  MISO
@@ -124,13 +118,10 @@ Reading | ################################################## | 100% 0.13 s
 >   GND  MOSI VCC
 > ```
 
-> [!note]
 > When using a programmer, you can interact with fuses, lock, eeprom, and bootloader part of flash
 
-> [!note]
 > When using `pickit4`, you may need to switch mode to `avr`:  `avrdude -c pickit4_isp -p ATmega328P -x mode=avr` (`-x mode=pic` to switch back)
 
-> [!note]
 > Original fuses
 > 
 > | Fuse Name | Value |
@@ -172,19 +163,16 @@ Device signature = 1E 95 0F (ATmega328P, ATA6614Q, LGT8F328P)
 
 #### Before flashing
 
-> [!danger]
 > - Make backup before any write operation: `avrdude -c pickit4_isp -p ATmega328P -U flash:r:backup_flash.hex:i`
 > - You can restore the flash by: `avrdude -c pickit4_isp -p ATmega328P -e -U flash:w:backup_flash.hex:i`
 > - if not using `-D` when writing, flash is erased (including bootloader): do not forget it, or be sure to include bootloader memory.
 
-> [!note]
 > The `-e` will erase the `eeprom` too (if previous fuses values were wrong, it may be not erased, feel free to check with: `avrdude -c pickit4_isp -p ATmega328P -U eeprom:r:-:h` before trying again)
 
 #### Flash
 
 Only program
 
-> [!tip]
 > Prefer `-c arduino` programming mode when dealing with programs only
 
 ```
@@ -209,7 +197,6 @@ or with all combined (`avrdude` version >= 8.0):
 avrdude -c pickit4_isp -p ATmega328P -e -U flash,lfuse,hfuse,efuse,lock:w:blink_optiboot_fuses_lock.hex:i
 ```
 
-> [!tip]
 > You can produce this combined file with fuses & lock with:
 > ```
 > srec_cat -output blink_optiboot_fuses_lock.hex -intel ^
@@ -244,28 +231,28 @@ Device signature = 1E 95 0F (ATmega328P, ATA6614Q, LGT8F328P)
 ## References
 
 ### Files used
-- gentilkiwi's GitHub: https://github.com/gentilkiwi/attachments/tree/main/blog/arduino_uno_r3/atmega328p
+- gentilkiwi's GitHub: <https://github.com/gentilkiwi/attachments/tree/main/blog/arduino_uno_r3/atmega328p>
 
 ### ATmega / Microchip
-- ATmega328P: https://www.microchip.com/en-us/product/atmega328p
-- AVR109: Self Programming: https://ww1.microchip.com/downloads/en/Appnotes/doc1644.pdf
-- AVR Open-source Programmer: https://www.microchip.com/en-us/application-notes/an2568
-- Serial bootloader for tinyAVR and megaAVR devices: https://microchip.my.site.com/s/article/Serial-bootloader-for-tinyAVR-and-megaAVR-devices
+- ATmega328P: <https://www.microchip.com/en-us/product/atmega328p>
+- AVR109: Self Programming: <https://ww1.microchip.com/downloads/en/Appnotes/doc1644.pdf>
+- AVR Open-source Programmer: <https://www.microchip.com/en-us/application-notes/an2568>
+- Serial bootloader for tinyAVR and megaAVR devices: <https://microchip.my.site.com/s/article/Serial-bootloader-for-tinyAVR-and-megaAVR-devices>
 
 ### SRecord
-- SRecord (version 1.65 used here): https://srecord.sourceforge.net/
+- SRecord (version 1.65 used here): <https://srecord.sourceforge.net/>
 
 ### Bootloaders
-- Optiboot: https://github.com/Optiboot/optiboot
-- Urboot: https://github.com/stefanrueger/urboot
+- Optiboot: <https://github.com/Optiboot/optiboot>
+- Urboot: <https://github.com/stefanrueger/urboot>
 
 ### Programmers
 
 #### Hardware
-- Pickit 4: https://www.microchip.com/en-us/development-tool/pg164140
-- AVRISP MKII : https://www.microchip.com/en-us/development-tool/atavrisp2
+- Pickit 4: <https://www.microchip.com/en-us/development-tool/pg164140>
+- AVRISP MKII : <https://www.microchip.com/en-us/development-tool/atavrisp2>
 
 #### Software
-- AVRDUDE (version 8.0 used here): https://github.com/avrdudes/avrdude
-- Microchip Studio: https://www.microchip.com/en-us/tools-resources/develop/microchip-studio
-- MPLAB X IDE (includes IPE): https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide
+- AVRDUDE (version 8.0 used here): <https://github.com/avrdudes/avrdude>
+- Microchip Studio: <https://www.microchip.com/en-us/tools-resources/develop/microchip-studio>
+- MPLAB X IDE (includes IPE): <https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide>

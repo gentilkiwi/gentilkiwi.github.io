@@ -1,4 +1,5 @@
 ---
+title: Arduino Leonardo - ATmega32U4
 categories:
   - electronic
   - mcu
@@ -12,7 +13,6 @@ tags:
   - Arduino
 ---
 
-> [!attention]
 > Work in progress
 
 `%localappdata%\Arduino15\packages\arduino\hardware\avr\<version>\bootloaders\caterina`

@@ -1,4 +1,5 @@
 ---
+title: Arduino Uno R3 - ATmega16U2 (USB part)
 categories:
   - electronic
   - mcu
@@ -12,29 +13,27 @@ tags:
   - Arduino
 ---
 
-This part is the adapter used in front of the _real_ `ATmega328P` running our Arduino software.
-In the Uno R3 case, this adapter is an `ATmega16U2` (16 KB) with specialized firmwares to be able to interact with the `ATmega328P`.
+This part is the adapter used in front of the _real_ `ATmega328P` running our Arduino software.  
+In the Uno R3 case, this adapter is an `ATmega16U2` (16 KB) with specialized firmwares to be able to interact with the `ATmega328P`.  
 `ATmega328P` (UART) ↔ `ATmega16U2` (USB) ↔ our computer, and this chip also facilitates flashing new programs onto the `ATmega328P`.
 
-> [!note]
 > You can find information about `ATmega328P` on the Arduino Uno R3: [Arduino Uno R3 - ATmega328P](Arduino%20Uno%20R3%20-%20ATmega328P.md)
 
 You can find original firmwares in:
 - `%localappdata%\Arduino15\packages\arduino\hardware\avr\<version>\firmwares\atmegaxxu2`
-- https://github.com/arduino/ArduinoCore-avr/tree/master/firmwares/atmegaxxu2
+- <https://github.com/arduino/ArduinoCore-avr/tree/master/firmwares/atmegaxxu2>
 
-Ressources used are available on: https://github.com/gentilkiwi/attachments/tree/main/blog/arduino_uno_r3/atmega16u2
+Ressources used are available on: <https://github.com/gentilkiwi/attachments/tree/main/blog/arduino_uno_r3/atmega16u2>
 
 The firmware files are organized as follows:
 - USB to Serial part is in `arduino-usbserial` directory, built firmware is : `Arduino-usbserial-atmega16u2-Uno-Rev3.hex`
 - USB DFU part is in `arduino-usbdfu` directory, firmware is not precompiled.
 
-For convenience, they are merged in: `Arduino-COMBINED-dfu-usbserial-atmega16u2-Uno-Rev3.hex`
+For convenience, they are merged in: `Arduino-COMBINED-dfu-usbserial-atmega16u2-Uno-Rev3.hex`  
 Both are _inspired_ by LUFA (`Projects/USBtoSerial` & `Bootloaders/DFU`)
 
-> [!tip]
-> The DFU firmware is inside `Arduino-COMBINED-dfu-usbserial-atmega16u2-Uno-Rev3.hex`
-> You can extract the original DFU firmware part with: `srec_cat -output Arduino-dfu-atmega16u2-Uno-Rev3.hex -intel Arduino-COMBINED-dfu-usbserial-atmega16u2-Uno-Rev3.hex -intel -exclude 0x0000 0x3000`
+> The DFU firmware is inside `Arduino-COMBINED-dfu-usbserial-atmega16u2-Uno-Rev3.hex`  
+> You can extract the original DFU firmware part with: `srec_cat -output Arduino-dfu-atmega16u2-Uno-Rev3.hex -intel Arduino-COMBINED-dfu-usbserial-atmega16u2-Uno-Rev3.hex -intel -exclude 0x0000 0x3000`  
 > The DFU firmware alone is now located in the `Arduino-dfu-atmega16u2-Uno-Rev3.hex` file.
 
 With default fuses values, the memory map for Intel HEX files is:
@@ -48,7 +47,6 @@ With default fuses values, the memory map for Intel HEX files is:
 | `0x820000` | `0x820002` | 3 bytes   | Fuses                | Low, High, and Extended fuse bits |
 | `0x830000` | `0x830000` | 1 byte    | Lock Bits            | Protection flags                  |
 
-> [!note]
 > You can see other values in the datasheet:
 > - `ATmega16U2` uses an addressing mode in `words` (16 bits), not `bytes` (8 bits): so bootloader start at `0x1800` in words... but also  `0x3000` in bytes
 > - EEPROM is not really @ `0x810000`, as fuses or lock, but programmer softwares are using different addresses to not mix different memory areas.
@@ -58,8 +56,8 @@ With default fuses values, the memory map for Intel HEX files is:
 ## Building firmwares
 
 You can build a fixed DFU firmware, and a new version of USBtoSerial thank to:
-- LUFA: https://github.com/abcminiuser/lufa
-- A patch adjusting LUFA to Arduino Uno R3 use case: https://github.com/gentilkiwi/attachments/blob/main/blog/arduino_uno_r3/atmega16u2/lufa_usbtoserial_dfu.patch
+- LUFA: <https://github.com/abcminiuser/lufa>
+- A patch adjusting LUFA to Arduino Uno R3 use case: <https://github.com/gentilkiwi/attachments/blob/main/blog/arduino_uno_r3/atmega16u2/lufa_usbtoserial_dfu.patch>
 
 ```
 sudo apt update
@@ -68,8 +66,8 @@ sudo apt install build-essential avr-libc binutils-avr gcc-avr srecord
 ```
 
 ```
-git clone https://github.com/abcminiuser/lufa.git
-curl --remote-name --location https://raw.githubusercontent.com/gentilkiwi/attachments/refs/heads/main/blog/arduino_uno_r3/atmega16u2/lufa_usbtoserial_dfu.patch
+git clone <https://github.com/abcminiuser/lufa.git>
+curl --remote-name --location <https://raw.githubusercontent.com/gentilkiwi/attachments/refs/heads/main/blog/arduino_uno_r3/atmega16u2/lufa_usbtoserial_dfu.patch>
 cd lufa
 git apply --whitespace=nowarn --verbose ../lufa_usbtoserial_dfu.patch
 make --directory=Bootloaders/DFU
@@ -77,19 +75,16 @@ make --directory=Projects/USBtoSerial
 srec_info Projects/USBtoSerial/USBtoSerial.hex -intel Bootloaders/DFU/BootloaderDFU.hex -intel
 ```
 
-> [!note]
 > You now need an external programmer (not `flip1`) in order to replace bootloader (DFU), see below.
 
 ## Programming
 
-> [!info]
 > Tested with `flip1` (with limitations), `avrispmkII` & `pickit4_isp`
 
 ### `flip1` (dfu)
 
 #### Notes
 
->[!info]
 > The DFU mode is available by making contact between `GND` (6) and `RESET` (5) pins (then release) on the `ATmega16U2` ISP connector (top right). Then flashing is available by USB - no hardware programmer needed.
 > ```
 >       -------
@@ -102,7 +97,6 @@ srec_info Projects/USBtoSerial/USBtoSerial.hex -intel Bootloaders/DFU/Bootloader
 
 In DFU mode, only flash & eeprom memories are available (and the bootloader part is not writable).
 
-> [!bug]
 > Original Arduino DFU firmware is **incorrect**, returning an incorrect device signature to the programmer:
 > - KO - `avrdude` - checking device signature ;
 >   - OK - ...when ignoring bad signature with `-F` parameter ;
@@ -120,14 +114,12 @@ Error: expected signature for ATmega16U2 is 1E 94 89
 [...]
 ```
 
-> [!done]
-> DFU firmware problem was fixed in 2013/2015 in the LUFA project ( https://github.com/abcminiuser/lufa ).
+> DFU firmware problem was fixed in 2013/2015 in the LUFA project ( <https://github.com/abcminiuser/lufa> ).
 > Bonus: TX/RX leds are now flashing to show we're in DFU mode :)
 
 #### Before flashing
 
-> [!danger]
-> Make backup before any write operation: `avrdude -c flip1 -p ATmega16U2 -F -U flash:r:backup_flash.hex:i`
+> Make backup before any write operation: `avrdude -c flip1 -p ATmega16U2 -F -U flash:r:backup_flash.hex:i`  
 > You can restore the flash by: `avrdude -c flip1 -p ATmega16U2 -F -U flash:w:backup_flash.hex:i`
 
 #### Flash
@@ -175,7 +167,6 @@ Reading | ################################################## | 100% 0.05 s
 
 #### Notes
 
->[!note]
 > When using a hardware programmer, connect it to the `ATmega16U2` ISP connector (located at the top right)
 > ```
 >       -----
@@ -185,13 +176,10 @@ Reading | ################################################## | 100% 0.05 s
 >       -----
 > ```
 
-> [!note]
 > When using a programmer, you can interact with fuses, lock, eeprom, and bootloader part of flash
 
-> [!note]
 > When using `pickit4`, you may need to switch mode to `avr`:  `avrdude -c pickit4_isp -p ATmega16U2 -x mode=avr` (`-x mode=pic` to switch back)
 
-> [!note]
 > Original fuses
 > 
 > | Fuse Name | Value |
@@ -233,16 +221,13 @@ Device signature = 1E 94 89 (ATmega16U2)
 
 #### Before flashing
 
-> [!danger]
-> Make backup before any write operation: `avrdude -c pickit4_isp -p ATmega16U2 -U flash:r:backup_flash.hex:i`
+> Make backup before any write operation: `avrdude -c pickit4_isp -p ATmega16U2 -U flash:r:backup_flash.hex:i`  
 > You can restore the flash by: `avrdude -c pickit4_isp -p ATmega16U2 -e -U flash:w:backup_flash.hex:i`
 
-> [!note]
 > The `-e` will erase the `eeprom` too (if previous fuses values were wrong, it may be not erased, feel free to check with: `avrdude -c pickit4_isp -p ATmega16U2 -U eeprom:r:-:h` before trying again)
 
 #### Flash original firmware
 
-> [!info]
 > even if the original DFU firmware part isn't perfect, it's enough to have something working
 
 ```
@@ -255,7 +240,6 @@ or with all combined (`avrdude` version >= 8.0):
 avrdude -c pickit4_isp -p ATmega16U2 -e -U flash,lfuse,hfuse,efuse,lock:w:Arduino-COMBINED-dfu-usbserial-atmega16u2-Uno-Rev3_fuses_lock.hex:i
 ```
 
-> [!tip]
 > You can produce this combined file with fuses & lock with:
 > ```
 > srec_cat -output Arduino-COMBINED-dfu-usbserial-atmega16u2-Uno-Rev3_fuses_lock.hex -intel ^
@@ -277,7 +261,6 @@ or with all combined (`avrdude` version >= 8.0):
 avrdude -c pickit4_isp -p ATmega16U2 -e -U flash,lfuse,hfuse,efuse,lock:w:usbserial-bootloaderdfu_fuses_lock.hex:i
 ```
 
-> [!tip]
 > You can produce this combined file with fuses & lock with:
 > ```
 > srec_cat -output usbserial-bootloaderdfu_fuses_lock.hex -intel ^
@@ -291,34 +274,34 @@ avrdude -c pickit4_isp -p ATmega16U2 -e -U flash,lfuse,hfuse,efuse,lock:w:usbser
 ## References
 
 ### Files used
-- gentilkiwi's GitHub: https://github.com/gentilkiwi/attachments/tree/main/blog/arduino_uno_r3/atmega16u2
+- gentilkiwi's GitHub: <https://github.com/gentilkiwi/attachments/tree/main/blog/arduino_uno_r3/atmega16u2>
 
 ### ATmega / Microchip
-- ATmega16U2: https://www.microchip.com/en-us/product/atmega16u2
-- AVR4023 - FLIP USB DFU Protocol: https://www.microchip.com/en-us/application-notes/an8457
-- USB DFU Bootloader Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/doc7618.pdf
-- megaAVR DFU USB Bootloaders (no `ATmega16U2` inside): https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/SoftwareLibraries/Firmware/megaUSB_DFU_Bootloaders.zip
+- ATmega16U2: <https://www.microchip.com/en-us/product/atmega16u2>
+- AVR4023 - FLIP USB DFU Protocol: <https://www.microchip.com/en-us/application-notes/an8457>
+- USB DFU Bootloader Datasheet: <https://ww1.microchip.com/downloads/en/DeviceDoc/doc7618.pdf>
+- megaAVR DFU USB Bootloaders (no `ATmega16U2` inside): <https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/SoftwareLibraries/Firmware/megaUSB_DFU_Bootloaders.zip>
 
 ### Arduino
-- Flash the USB-to-serial firmware for UNO (Rev3 and earlier) and Mega boards: https://support.arduino.cc/hc/en-us/articles/4408887452434-Flash-the-USB-to-serial-firmware-for-UNO-Rev3-and-earlier-and-Mega-boards
-- Set the Atmega16U2/8U2 chip on UNO (Rev3 or earlier) and Mega boards to DFU mode: https://support.arduino.cc/hc/en-us/articles/4410804625682-Set-the-Atmega16U2-8U2-chip-on-UNO-Rev3-or-earlier-and-Mega-boards-to-DFU-mode
-- Arduino USB 2 Serial Micro: https://docs.arduino.cc/retired/boards/arduino-usb-2-serial-micro/
+- Flash the USB-to-serial firmware for UNO (Rev3 and earlier) and Mega boards: <https://support.arduino.cc/hc/en-us/articles/4408887452434-Flash-the-USB-to-serial-firmware-for-UNO-Rev3-and-earlier-and-Mega-boards>
+- Set the Atmega16U2/8U2 chip on UNO (Rev3 or earlier) and Mega boards to DFU mode: <https://support.arduino.cc/hc/en-us/articles/4410804625682-Set-the-Atmega16U2-8U2-chip-on-UNO-Rev3-or-earlier-and-Mega-boards-to-DFU-mode>
+- Arduino USB 2 Serial Micro: <https://docs.arduino.cc/retired/boards/arduino-usb-2-serial-micro/>
 
 ### SRecord
-- SRecord (version 1.65 used here): https://srecord.sourceforge.net/
+- SRecord (version 1.65 used here): <https://srecord.sourceforge.net/>
 
 ### LUFA
-- LUFA (The Lightweight USB Framework for AVRs): https://github.com/abcminiuser/lufa
+- LUFA (The Lightweight USB Framework for AVRs): <https://github.com/abcminiuser/lufa>
 
 ### Programmers
 
 #### Hardware
-- Pickit 4: https://www.microchip.com/en-us/development-tool/pg164140
-- AVRISP MKII : https://www.microchip.com/en-us/development-tool/atavrisp2
+- Pickit 4: <https://www.microchip.com/en-us/development-tool/pg164140>
+- AVRISP MKII : <https://www.microchip.com/en-us/development-tool/atavrisp2>
 
 #### Software
-- AVRDUDE (version 8.0 used here): https://github.com/avrdudes/avrdude
-- dfu-programmer: https://github.com/dfu-programmer/dfu-programmer
-- Microchip Studio: https://www.microchip.com/en-us/tools-resources/develop/microchip-studio
-- FLIP (requires JRE) : https://www.microchip.com/en-us/development-tool/flip
-- MPLAB X IDE (includes IPE): https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide
+- AVRDUDE (version 8.0 used here): <https://github.com/avrdudes/avrdude>
+- dfu-programmer: <https://github.com/dfu-programmer/dfu-programmer>
+- Microchip Studio: <https://www.microchip.com/en-us/tools-resources/develop/microchip-studio>
+- FLIP (requires JRE) : <https://www.microchip.com/en-us/development-tool/flip>
+- MPLAB X IDE (includes IPE): <https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide>

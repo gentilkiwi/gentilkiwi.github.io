@@ -1,4 +1,5 @@
 ---
+title: ChameleonMini RevE - ATxmega32A4U
 categories:
   - electronic
   - mcu
@@ -17,7 +18,7 @@ _Work In Progress_
 
 ### Patching firmware
 
-Official documentation, sources & pre-compiled bootloaders for DFU modes for the `XMEGA` family, including our `ATxmega32A4U`, is available at https://www.microchip.com/en-us/application-notes/an8429.
+Official documentation, sources & pre-compiled bootloaders for DFU modes for the `XMEGA` family, including our `ATxmega32A4U`, is available at <https://www.microchip.com/en-us/application-notes/an8429>.
 In the application note, `PC3` is the default pin for `ATxmega32A4U` used to detect if DFU must be enabled at startup.
 
 Unfortunately, ChameleonMini is not using `PC3`, but `PA6`. Instead of rebuilding it (project is for IAR compiler, not free), we can _patch_ the official binary file `atxmega32a4u_104.hex`
@@ -35,7 +36,7 @@ From: `common/services/usb/class/dfu_flip/device/bootloader/xmega/conf/conf_isp.
 
 > [!bug]
 > It seems that the definition for `XMEGA_A1U` is incorrect, `ISP_PORT_PIN` is set to `0` : `ISP_PORT_PINCTRL` should be `PORTF_PIN0CTRL` (not `PORTF_PIN5CTRL`).
-> In addition, documentation is about a non existent default pin `PF10` (Table 5-1), it should be `PF0` ( https://microchip.my.site.com/s/article/AVR1916---Default-pin-configuration-for-boot-loader--ATxmega128A1U )
+> In addition, documentation is about a non existent default pin `PF10` (Table 5-1), it should be `PF0` ( <https://microchip.my.site.com/s/article/AVR1916---Default-pin-configuration-for-boot-loader--ATxmega128A1U> )
 
 We are not concerned about it here, as we're working on a `ATxmega32A4U`, using `PC3` by default to switch to DFU mode - confirmed by the `conf_isp.h` header.
 `ISP_PORT_*` definitions will be used in the firmware project, only in the file `common/services/isp/flip/xmega/cstartup.s90`:
@@ -149,7 +150,6 @@ Device signature = 1E 95 41 (ATxmega32A4U, ATxmega32A4)
 
 ### `pickit4_isp` or `avrispmkII`
 
-> [!note]
 > Original fuses
 > 
 > | Fuse Name | Value |
@@ -191,12 +191,10 @@ Device signature = 1E 95 41 (ATxmega32A4U, ATxmega32A4)
 
 #### Before flashing
 
-> [!danger]
-> Make backup before any write operation: `avrdude -c avrispmkii -p ATxmega32A4U -U flash:r:backup_flash.hex:i -U eeprom:r:backup_eeprom.hex:i`
+> Make backup before any write operation: `avrdude -c avrispmkii -p ATxmega32A4U -U flash:r:backup_flash.hex:i -U eeprom:r:backup_eeprom.hex:i`  
 > You can restore the flash by: `avrdude -c avrispmkii -p ATxmega32A4U -e -U flash:w:backup_flash.hex:i -U eeprom:w:backup_flash.hex:i`
 
-> [!note]
-> The `-e` will erase the `eeprom` too (if previous fuses values were wrong, it may be not erased, feel free to check with: `avrdude -c avrispmkii -p ATxmega32A4U -U eeprom:r:-:h` before trying again)
+> NOTE: The `-e` will erase the `eeprom` too (if previous fuses values were wrong, it may be not erased, feel free to check with: `avrdude -c avrispmkii -p ATxmega32A4U -U eeprom:r:-:h` before trying again)
 
 #### Flash new firmware
 
@@ -210,7 +208,6 @@ or with all combined (`avrdude` version >= 8.0):
 avrdude -c avrispmkii -p ATxmega32A4U -e -U flash,eeprom,fuse0,fuse1,fuse2,fuse4,fuse5,lock:w:ChameleonMini-bootloaderdfu_eeprom_fuses_lock.hex:i
 ```
 
-> [!tip]
 > You can produce this combined file (`ChameleonMini-bootloaderdfu_eeprom_fuses_lock.hex`) with eeprom, fuses & lock with:
 > - From the patched DFU firmware (`atxmega32a4u_104_PA6.hex`)
 > ```
@@ -237,14 +234,10 @@ avrdude -c avrispmkii -p ATxmega32A4U -e -U flash,eeprom,fuse0,fuse1,fuse2,fuse4
 >   -generate 0x830000 0x830001 -constant 0xff
 > ```
 
-
-
-
 ## References
 
-- https://www.microchip.com/en-us/product/atxmega32a4u
-
-- https://www.microchip.com/en-us/application-notes/an8429
-- https://github.com/iceman1001/ChameleonMini-rebooted
-- https://github.com/emsec/ChameleonMini
-- https://github.com/RfidResearchGroup/ChameleonMini
+- <https://www.microchip.com/en-us/product/atxmega32a4u>
+- <https://www.microchip.com/en-us/application-notes/an8429>
+- <https://github.com/iceman1001/ChameleonMini-rebooted>
+- <https://github.com/emsec/ChameleonMini>
+- <https://github.com/RfidResearchGroup/ChameleonMini>

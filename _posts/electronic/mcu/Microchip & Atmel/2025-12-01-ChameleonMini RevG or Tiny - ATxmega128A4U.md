@@ -1,4 +1,5 @@
 ---
+title: ChameleonMini RevG or Tiny - ATxmega128A4U
 categories:
   - electronic
   - mcu
@@ -10,6 +11,8 @@ tags:
   - xmega
 ---
 
+_Work In Progress_
+
 From: `common/services/usb/class/dfu_flip/device/bootloader/xmega/conf/conf_isp.h`:
 
 | Model                           | ISP_PORT_DIR | ISP_PORT_PINCTRL | ISP_PORT_IN | ISP_PORT_PIN | Friendly Name |
@@ -19,11 +22,9 @@ From: `common/services/usb/class/dfu_flip/device/bootloader/xmega/conf/conf_isp.
 | XMEGA_A4U, XMEGA_C4             | PORTC_DIR    | PORTC_PIN3CTRL   | PORTC_IN    | 3            | PC3           |
 | XMEGA_B                         | PORTC_DIR    | PORTC_PIN6CTRL   | PORTC_IN    | 6            | PC6           |
 
-> [!bug]
-> It seems that the definition for `XMEGA_A1U` is incorrect, `ISP_PORT_PIN` is `0` : `ISP_PORT_PINCTRL` should be `PORTF_PIN0CTRL` (not `PORTF_PIN5CTRL`).
+> It seems that the definition for `XMEGA_A1U` is incorrect, `ISP_PORT_PIN` is `0` : `ISP_PORT_PINCTRL` should be `PORTF_PIN0CTRL` (not `PORTF_PIN5CTRL`).  
 > In addition, documentation is about a non existent `PF10` (Table 5-1).
 
-> [!check]
 > We are not concerned about it here, as we're working on `ATxmega128A4U`, using `PC3` by default to switch to DFU mode.
 
 From `common/services/isp/flip/xmega/cstartup.s90`:
