@@ -14,18 +14,17 @@ tags:
 ---
 
 This part is about the _real_ `ATmega328P`, with 32 KB of flash, running our Arduino programs/sketches.  
-In the Uno R3 case, `ATmega328P` does not interact directly with our computer (no USB support), but uses UART communication via the `ATmega16U2` supporting USB (`ATmega328P` (UART) ↔ `ATmega16U2` (USB) ↔ our computer).  
-The `ATmega328P` uses a minimalist bootloader called `optiboot`, which is slightly under 512 bytes, leaving more space for our programs/sketches, and allows UART flashing via the `ATmega16U2`.
+In the Uno R3 case, `ATmega328P` does not interact directly with our computer (no USB support), but uses UART communication via the `ATmega16U2` supporting USB (`ATmega328P` (UART) ↔ `ATmega16U2` (USB) ↔ our computer).
 
 > You can find information about `ATmega16U2` on the Arduino Uno R3: [Arduino Uno R3 - ATmega16U2 (for USB to serial and its DFU)](Arduino-Uno-R3-ATmega16U2-(for-USB-to-serial-and-its-DFU).html)
+
+The `ATmega328P` uses a minimalist bootloader called `optiboot`, which is slightly under 512 bytes, leaving more space for our programs/sketches, and allows UART flashing via the `ATmega16U2`.
 
 You can find original `optiboot` bootloader in :
 - `%localappdata%\Arduino15\packages\arduino\hardware\avr\<version>\bootloaders\optiboot`
 - <https://github.com/arduino/ArduinoCore-avr/tree/master/bootloaders/optiboot>
 
-Ressources used are available on: https://github.com/gentilkiwi/attachments/tree/main/blog/arduino_uno_r3/atmega328p
-
-Our Arduino Uno R3 uses `optiboot_atmega328.hex` file, by default in its version `4.4`.
+Our Arduino Uno R3 uses [`optiboot_atmega328.hex`](https://raw.githubusercontent.com/arduino/ArduinoCore-avr/refs/heads/master/bootloaders/optiboot/optiboot_atmega328.hex) file, by default in its version `4.4`.
 
 With default fuses values, the memory map for Intel HEX files is:
 
@@ -44,12 +43,12 @@ With default fuses values, the memory map for Intel HEX files is:
 
 ## Building firmware
 
-You can build a new version of Optiboot thanks to: https://github.com/Optiboot/optiboot
+You can build a new version of Optiboot thanks to: <https://github.com/Optiboot/optiboot>
 
 ```
 sudo apt update
 sudo apt upgrade --assume-yes
-sudo apt install build-essential avr-libc binutils-avr gcc-avr srecord
+sudo apt install build-essential avr-libc binutils-avr gcc-avr srecord git
 ```
 
 ```
@@ -59,7 +58,7 @@ make --directory=optiboot/bootloaders/optiboot AVR_FREQ=16000000 LED_START_FLASH
 srec_info optiboot/bootloaders/optiboot/optiboot_atmega328.hex -intel
 ```
 
-> You now need an external programmer (not `arduino`) in order to replace the bootloader, see below.
+You now need an external programmer (not `arduino`) in order to replace the bootloader, see below.
 
 ## Programming
 
@@ -90,10 +89,14 @@ Device signature = 1E 95 0F (ATmega328P, ATA6614Q, LGT8F328P)
 [...]
 ```
 
-> Make backup of flash before any write operation: `avrdude -c arduino -P COM5 -p ATmega328P -U flash:r:backup_flash.hex:i`  
-> You can restore memories `avrdude -c arduino -P COM5 -p ATmega328P -U flash:w:backup_flash.hex:i`
+#### Before flashing
 
-You can flash an application, such as `blink.hex`, with the following command:
+Make backup of flash before any write operation: `avrdude -c arduino -P COM5 -p ATmega328P -U flash:r:backup_flash.hex:i`  
+You can restore memories `avrdude -c arduino -P COM5 -p ATmega328P -U flash:w:backup_flash.hex:i`
+
+#### Flash
+
+You can flash an application, such as [`blink.hex`](/assets/downloads/arduino_uno_r3/atmega328p/blink.hex), with the following command:
 
 ```
 > avrdude -c arduino -P COM5 -p atmega328p -U flash:w:blink.hex:i
@@ -108,35 +111,35 @@ Reading | ################################################## | 100% 0.13 s
 
 #### Notes
 
-> When using a hardware programmer, connect it to the `ATmega328P` ISP connector (located at the bottom middle)
-> ```
-> RESET  CLK  MISO
->     \---|---/     
->    | 5  3  1 |
->    | 6  4  2 |
->     /---|---\
->   GND  MOSI VCC
-> ```
+When using a hardware programmer, connect it to the `ATmega328P` ISP connector (located at the bottom middle)
+```
+RESET  CLK  MISO
+    \---|---/     
+   | 5  3  1 |
+   | 6  4  2 |
+    /---|---\
+  GND  MOSI VCC
+```
 
-> When using a programmer, you can interact with fuses, lock, eeprom, and bootloader part of flash
+When using a programmer, you can interact with fuses, lock, eeprom, and bootloader part of flash
 
-> When using `pickit4`, you may need to switch mode to `avr`:  `avrdude -c pickit4_isp -p ATmega328P -x mode=avr` (`-x mode=pic` to switch back)
+When using `pickit4`, you may need to switch mode to `avr`:  `avrdude -c pickit4_isp -p ATmega328P -x mode=avr` (`-x mode=pic` to switch back)
 
-> Original fuses
-> 
-> | Fuse Name | Value |
-> |-----------|-------|
-> | LOW       | 0xff  |
-> | HIGH      | 0xde  |
-> | EXTENDED  | 0xfd  |
-> | LOCK      | 0xcf  |
-> 
-> - Bootloader 256 words (512 B when in bytes), @ 0x3f00 (0x7e00 when in bytes)
-> - LPM and SPM prohibited in Boot Section
-> 
-> You can check them with:
-> - version < 8.0: `avrdude -c pickit4_isp -p ATmega328P -U lfuse:r:-:h -U hfuse:r:-:h -U efuse:r:-:h -U lock:r:-:h`
-> - version >= 8.0: `avrdude -c pickit4_isp -p ATmega328P -U lfuse,hfuse,efuse,lock:r:-:h`
+Original fuses
+
+| Fuse Name | Value |
+|-----------|-------|
+| LOW       | 0xff  |
+| HIGH      | 0xde  |
+| EXTENDED  | 0xfd  |
+| LOCK      | 0xcf  |
+
+- Bootloader 256 words (512 B when in bytes), @ 0x3f00 (0x7e00 when in bytes)
+- LPM and SPM prohibited in Boot Section
+
+You can check them with:
+- version < 8.0: `avrdude -c pickit4_isp -p ATmega328P -U lfuse:r:-:h -U hfuse:r:-:h -U efuse:r:-:h -U lock:r:-:h`
+- version >= 8.0: `avrdude -c pickit4_isp -p ATmega328P -U lfuse,hfuse,efuse,lock:r:-:h`
 
 #### Check connection
 
@@ -163,35 +166,42 @@ Device signature = 1E 95 0F (ATmega328P, ATA6614Q, LGT8F328P)
 
 #### Before flashing
 
-> - Make backup before any write operation: `avrdude -c pickit4_isp -p ATmega328P -U flash:r:backup_flash.hex:i`
-> - You can restore the flash by: `avrdude -c pickit4_isp -p ATmega328P -e -U flash:w:backup_flash.hex:i`
-> - if not using `-D` when writing, flash is erased (including bootloader): do not forget it, or be sure to include bootloader memory.
+- Make backup before any write operation: `avrdude -c pickit4_isp -p ATmega328P -U flash:r:backup_flash.hex:i`
+- You can restore the flash by: `avrdude -c pickit4_isp -p ATmega328P -e -U flash:w:backup_flash.hex:i`
+- if not using `-D` when writing, flash is erased (including bootloader): do not forget it, or be sure to include bootloader memory.
 
-> The `-e` will erase the `eeprom` too (if previous fuses values were wrong, it may be not erased, feel free to check with: `avrdude -c pickit4_isp -p ATmega328P -U eeprom:r:-:h` before trying again)
+The `-e` will erase the `eeprom` too (if previous fuses values were wrong, it may be not erased, feel free to check with: `avrdude -c pickit4_isp -p ATmega328P -U eeprom:r:-:h` before trying again)
 
 #### Flash
 
-Only program
+##### Only program
 
-> Prefer `-c arduino` programming mode when dealing with programs only
+File: [`blink.hex`](/assets/downloads/arduino_uno_r3/atmega328p/blink.hex)
+
+Prefer `-c arduino` programming mode when dealing with programs only
 
 ```
 avrdude -c pickit4_isp -p ATmega328P -D -U flash:w:blink.hex:i
 ```
 
-Program with bootloader
+##### Program with bootloader
 
+Files: [`blink.hex`](/assets/downloads/arduino_uno_r3/atmega328p/blink.hex) & [`optiboot_atmega328.hex`](/assets/downloads/arduino_uno_r3/atmega328p/optiboot_atmega328.hex)
 ```
 avrdude -c pickit4_isp -p ATmega328P -e -U flash:w:blink.hex:i -U flash:w:optiboot_atmega328.hex:i
 ```
 
-Program with bootloader & fuses/lock
+##### Program with bootloader & fuses/lock
+
+Files: [`blink.hex`](/assets/downloads/arduino_uno_r3/atmega328p/blink.hex) & [`optiboot_atmega328.hex`](/assets/downloads/arduino_uno_r3/atmega328p/optiboot_atmega328.hex)
 
 ```
 avrdude -c pickit4_isp -p ATmega328P -e -U flash:w:blink.hex:i -U flash:w:optiboot_atmega328.hex:i -U lfuse:w:0xff:m -U hfuse:w:0xde:m -U efuse:w:0xfd:m -U lock:w:0xcf:m
 ```
 
 or with all combined (`avrdude` version >= 8.0):
+
+File: [`blink_optiboot_fuses_lock.hex`](/assets/downloads/arduino_uno_r3/atmega328p/blink_optiboot_fuses_lock.hex)
 
 ```
 avrdude -c pickit4_isp -p ATmega328P -e -U flash,lfuse,hfuse,efuse,lock:w:blink_optiboot_fuses_lock.hex:i
@@ -229,9 +239,6 @@ Device signature = 1E 95 0F (ATmega328P, ATA6614Q, LGT8F328P)
 ```
 
 ## References
-
-### Files used
-- gentilkiwi's GitHub: <https://github.com/gentilkiwi/attachments/tree/main/blog/arduino_uno_r3/atmega328p>
 
 ### ATmega / Microchip
 - ATmega328P: <https://www.microchip.com/en-us/product/atmega328p>
