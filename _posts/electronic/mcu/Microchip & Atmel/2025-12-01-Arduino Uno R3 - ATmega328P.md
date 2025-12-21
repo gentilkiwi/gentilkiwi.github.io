@@ -17,7 +17,7 @@ This part is about the _real_ `ATmega328P`, with 32 KB of flash, running our Ard
 In the Uno R3 case, `ATmega328P` does not interact directly with our computer (no USB support), but uses UART communication via the `ATmega16U2` supporting USB (`ATmega328P` (UART) ↔ `ATmega16U2` (USB) ↔ our computer).  
 The `ATmega328P` uses a minimalist bootloader called `optiboot`, which is slightly under 512 bytes, leaving more space for our programs/sketches, and allows UART flashing via the `ATmega16U2`.
 
-> You can find information about `ATmega16U2` on the Arduino Uno R3: [Arduino Uno R3 - ATmega16U2 (for USB to serial and its DFU)](Arduino%20Uno%20R3%20-%20ATmega16U2%20(for%20USB%20to%20serial%20and%20its%20DFU).md)
+> You can find information about `ATmega16U2` on the Arduino Uno R3: [Arduino Uno R3 - ATmega16U2 (for USB to serial and its DFU)](Arduino-Uno-R3-ATmega16U2-(for-USB-to-serial-and-its-DFU).html)
 
 You can find original `optiboot` bootloader in :
 - `%localappdata%\Arduino15\packages\arduino\hardware\avr\<version>\bootloaders\optiboot`

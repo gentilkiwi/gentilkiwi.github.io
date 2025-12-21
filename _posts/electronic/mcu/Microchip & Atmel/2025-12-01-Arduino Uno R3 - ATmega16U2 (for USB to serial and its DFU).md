@@ -17,7 +17,7 @@ This part is the adapter used in front of the _real_ `ATmega328P` running our Ar
 In the Uno R3 case, this adapter is an `ATmega16U2` (16 KB) with specialized firmwares to be able to interact with the `ATmega328P`.  
 `ATmega328P` (UART) ↔ `ATmega16U2` (USB) ↔ our computer, and this chip also facilitates flashing new programs onto the `ATmega328P`.
 
-> You can find information about `ATmega328P` on the Arduino Uno R3: [Arduino Uno R3 - ATmega328P](Arduino%20Uno%20R3%20-%20ATmega328P.md)
+> You can find information about `ATmega328P` on the Arduino Uno R3: [Arduino Uno R3 - ATmega328P](Arduino-Uno-R3-ATmega328P.html)
 
 You can find original firmwares in:
 - `%localappdata%\Arduino15\packages\arduino\hardware\avr\<version>\firmwares\atmegaxxu2`
