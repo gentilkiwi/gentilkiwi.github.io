@@ -64,7 +64,7 @@ sudo apt install build-essential avr-libc binutils-avr gcc-avr srecord git
 ```
 
 ```
-git clone <https://github.com/abcminiuser/lufa.git>
+git clone https://github.com/abcminiuser/lufa.git
 cd lufa
 git apply --whitespace=nowarn --verbose ../lufa_usbtoserial_dfu.patch
 make --directory=Bootloaders/DFU
