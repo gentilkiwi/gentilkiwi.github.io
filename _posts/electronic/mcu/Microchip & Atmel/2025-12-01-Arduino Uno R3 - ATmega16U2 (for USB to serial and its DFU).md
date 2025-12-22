@@ -313,6 +313,7 @@ Device signature = 1E 94 89 (ATmega16U2)
 - AVR4023 - FLIP USB DFU Protocol: <https://www.microchip.com/en-us/application-notes/an8457>
 - USB DFU Bootloader Datasheet: <https://ww1.microchip.com/downloads/en/DeviceDoc/doc7618.pdf>
 - megaAVR DFU USB Bootloaders (no `ATmega16U2` inside): <https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/SoftwareLibraries/Firmware/megaUSB_DFU_Bootloaders.zip>
+- AVR530 - Migrating from AT90USB162/82 to ATmega16U2/8U2: <https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ApplicationNotes/ApplicationNotes/doc8224.pdf>
 
 ### Arduino
 - Flash the USB-to-serial firmware for UNO (Rev3 and earlier) and Mega boards: <https://support.arduino.cc/hc/en-us/articles/4408887452434-Flash-the-USB-to-serial-firmware-for-UNO-Rev3-and-earlier-and-Mega-boards>
