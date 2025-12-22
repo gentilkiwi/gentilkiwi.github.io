@@ -275,6 +275,37 @@ avrdude -c pickit4_isp -p ATmega16U2 -e -U flash,lfuse,hfuse,efuse,lock:w:usbser
 > ```
 > You can add `-generate 0x810000 0x810200 -constant 0xff ^` before the first `-generate` if you **really** want the EEPROM data (normally erased when programming)
 
+## Atmel original DFU
+
+_if you don't want to use the LUFA one..._
+
+I don't have any untouched `ATmega16U2` (aka not related to Arduino), so I'm unable to dump (if any?) original bootloader from it.  
+It seems you can find older/other ones in: <https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/SoftwareLibraries/Firmware/megaUSB_DFU_Bootloaders.zip>
+
+Unfortunately, no `ATmega16U2` inside, but a `at90usb162-bl-usb-1_0_5.hex` for a [`AT90USB162`](https://www.microchip.com/en-us/product/at90usb162).  
+As the `ATmega16U2` is an optimized version of the `AT90USB162`, **we can use this bootloader as-is** with various programmer software (including `avrdude` by forcing).
+
+**For convenience**, I patched (PID & Product) it to create a new [`atmega16u2-bl-usb-1_0_5.hex`](/assets/downloads/arduino_uno_r3/atmega16u2/atmega16u2-bl-usb-1_0_5.hex), the result is:
+
+```
+> avrdude -c flip1 -p ATmega16U2 -v
+[...]
+Using port            : usb
+Using programmer      : flip1
+AVR part              : ATmega16U2
+Programming modes     : SPM, ISP, HVPP, debugWIRE
+Programmer type       : flip1
+Description           : FLIP bootloader using USB DFU v1 (doc7618)
+    USB Vendor          : ATMEL (0x03EB)
+    USB Product         : ATmega16U2 DFU (0x2FEF)
+    USB Release         : 0.0.0
+    USB Serial No       : 1.0.5
+    USB max packet size : 32
+
+AVR device initialized and ready to accept instructions
+Device signature = 1E 94 89 (ATmega16U2)
+```
+
 ## References
 
 ### ATmega / Microchip
