@@ -18,7 +18,7 @@ In the Uno R3 case, `ATmega328P` does not interact directly with our computer (n
 
 > You can find information about `ATmega16U2` on the Arduino Uno R3: [Arduino Uno R3 - ATmega16U2 (for USB to serial and its DFU)](Arduino-Uno-R3-ATmega16U2-(for-USB-to-serial-and-its-DFU).html)
 
-The `ATmega328P` uses a minimalist bootloader called `optiboot`, which is slightly under 512 bytes, leaving more space for our programs/sketches, and allows UART flashing via the `ATmega16U2`.
+The Arduino's `ATmega328P` uses a minimalist bootloader called `optiboot`, which is slightly under 512 bytes, leaving more space for our programs/sketches, and allows UART flashing via the `ATmega16U2`.
 
 You can find original `optiboot` bootloader in :
 - `%localappdata%\Arduino15\packages\arduino\hardware\avr\<version>\bootloaders\optiboot`
