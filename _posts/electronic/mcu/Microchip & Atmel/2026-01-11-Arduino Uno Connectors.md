@@ -1,3 +1,17 @@
+---
+title: Arduino Uno Connectors
+categories:
+  - electronic
+  - mcu
+  - Microchip & Atmel
+tags:
+  - Atmel
+  - Atmega
+  - ATmega32U4
+  - Arduino
+  - Adafruit
+  - Samtec
+---
 ## Through-Board Connectors
 
 _For use in various HATs_
