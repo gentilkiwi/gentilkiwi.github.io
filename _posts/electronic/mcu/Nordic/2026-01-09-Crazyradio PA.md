@@ -1,3 +1,18 @@
+---
+title: Crazyradio PA
+categories:
+  - electronic
+  - mcu
+  - Nordic
+tags:
+  - Nordic
+  - nrf24lu1+
+---
+
+## Chip
+
+`nrf24lu1+`
+
 ## Programming connector
 ```
                 SCK  MOSI MISO
@@ -9,3 +24,7 @@
            +5V      |  |         GND
                 RESET  +3V3
 ```
+
+## References
+
+- <https://www.bitcraze.io/products/crazyradio-pa/>
