@@ -28,3 +28,4 @@ tags:
 ## References
 
 - <https://www.bitcraze.io/products/crazyradio-pa/>
+- <https://docs-be.nordicsemi.com/bundle/nRF24LU1P_PS_v1.1/raw/resource/enus/nRF24LU1P_PS_v1.1.pdf>
