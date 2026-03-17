@@ -27,6 +27,7 @@ tags:
 - [`RQR12.09_B0030.bin`](/assets/downloads/logitech/RQR12.09_B0030.bin)
 - [`RQR12.10_B0032.bin`](/assets/downloads/logitech/RQR12.10_B0032.bin)
   - [`RQR12.10_B0032_patched.bin`](/assets/downloads/logitech/RQR12.10_B0032_patched.bin)
+  - [`RQR12.10_B0032_read_mem.asm`](/assets/downloads/logitech/RQR12.10_B0032_read_mem.asm)
 - [`RQR12.11_B0032.bin`](/assets/downloads/logitech/RQR12.11_B0032.bin)
 - [`RQR21.00_B0007.bin`](/assets/downloads/logitech/RQR21.00_B0007.bin) - not related but compatible ;)
 
@@ -44,6 +45,7 @@ tags:
 - bootloader `04B0016` (and > ?) need a valid signature to be pushed in RAM before writing the last (first) byte ;
 - provided bootloaders are now generic (reference firmware version removed from them) ;
 - usually you cannot upload a new bootloader on an official Logitech dongle without SPI access + full erase (see `Infopage - Configuration`): there are here to experiment.
+- "source" code of the patch intrgrated in `RQR12.10_B0032_patched.bin` is available in `RQR12.10_B0032_read_mem.asm`
 
 ### Digests
 
