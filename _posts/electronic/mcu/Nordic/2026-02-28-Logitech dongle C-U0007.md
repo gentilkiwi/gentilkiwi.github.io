@@ -45,7 +45,7 @@ tags:
 - bootloader `04B0016` (and > ?) need a valid signature to be pushed in RAM before writing the last (first) byte ;
 - provided bootloaders are now generic (reference firmware version removed from them) ;
 - usually you cannot upload a new bootloader on an official Logitech dongle without SPI access + full erase (see `Infopage - Configuration`): there are here to experiment.
-- "source" code of the patch intrgrated in `RQR12.10_B0032_patched.bin` is available in `RQR12.10_B0032_read_mem.asm`
+- "source" code of the patch integrated in `RQR12.10_B0032_patched.bin` is available in `RQR12.10_B0032_read_mem.asm`
 
 ### Digests
 
